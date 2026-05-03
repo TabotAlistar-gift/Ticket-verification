@@ -27,7 +27,7 @@ export function SuccessStep({ onReset }: SuccessStepProps) {
       <div className="space-y-2">
         <h2 className="text-2xl font-bold text-slate-900">Verification in progress</h2>
         <p className="text-[15px] text-slate-500 font-medium">
-          You will receive a confirmation email shortly.<br />please wait..
+          You will receive a confirmation email shortly.<br />please wait...
         </p>
       </div>
       <Button 
