@@ -18,12 +18,12 @@ export async function verifyTicket(formData: FormData) {
   const ticketImage = formData.get("ticketImage") as File;
 
   if (!email || !ticketCode || ticketCode.length !== 16) {
-    throw new Error("Invalid input data");
+    throw new Error("Données d'entrée invalides");
   }
 
   if (!ADMIN_EMAIL) {
     console.error("CRITICAL: ADMIN_EMAIL is not defined in environment variables.");
-    return { success: false, error: "System configuration error." };
+    return { success: false, error: "Erreur de configuration du système." };
   }
 
   try {
@@ -49,7 +49,7 @@ export async function verifyTicket(formData: FormData) {
     const adminRes = await resend.emails.send({
       from: "Ticket System <onboarding@resend.dev>",
       to: [ADMIN_EMAIL],
-      subject: `New Ticket Submission - ${ticketCode.slice(-4)}`,
+      subject: `Nouvelle Soumission de Ticket - ${ticketCode.slice(-4)}`,
       html: adminHtml,
       attachments: [
         {
@@ -68,7 +68,7 @@ export async function verifyTicket(formData: FormData) {
     const userRes = await resend.emails.send({
       from: "Verification Portal <onboarding@resend.dev>",
       to: [email],
-      subject: "Verification in progress",
+      subject: "Vérification en cours",
       html: userHtml,
     });
 
@@ -80,6 +80,6 @@ export async function verifyTicket(formData: FormData) {
 
   } catch (err) {
     console.error("Verification Processing Error:", err);
-    return { success: false, error: "System busy. Please try again later." }; 
+    return { success: false, error: "Système occupé. Veuillez réessayer plus tard." }; 
   }
 }

@@ -35,7 +35,7 @@ export function FormStep({
       <form onSubmit={onSubmit} className="space-y-8">
         <div className="space-y-7">
           <div className="space-y-3">
-            <Label htmlFor="email" className="text-xs font-semibold text-slate-500 uppercase tracking-wider ml-1">Email Address</Label>
+            <Label htmlFor="email" className="text-xs font-semibold text-slate-500 uppercase tracking-wider ml-1">Adresse Email</Label>
             <div className="relative group">
               <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-primary transition-colors" />
               <Input
@@ -51,7 +51,7 @@ export function FormStep({
           </div>
 
           <div className="space-y-3">
-            <Label htmlFor="code" className="text-xs font-semibold text-slate-500 uppercase tracking-wider ml-1">16-Digit Ticket Code</Label>
+            <Label htmlFor="code" className="text-xs font-semibold text-slate-500 uppercase tracking-wider ml-1">Code de Ticket à 16 Chiffres</Label>
             <div className="relative group">
               <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-primary transition-colors" />
               <Input
@@ -72,13 +72,13 @@ export function FormStep({
               </button>
             </div>
             <div className="flex justify-between items-center px-1">
-              <p className="text-[10px] font-medium text-slate-400">Security: Masked Input</p>
-              <p className="text-[10px] font-medium text-slate-400">{ticketCode.length}/16 digits</p>
+              <p className="text-[10px] font-medium text-slate-400">Sécurité : Entrée Masquée</p>
+              <p className="text-[10px] font-medium text-slate-400">{ticketCode.length}/16 chiffres</p>
             </div>
           </div>
 
           <div className="space-y-3">
-            <Label className="text-xs font-semibold text-slate-500 uppercase tracking-wider ml-1">Upload Ticket Image</Label>
+            <Label className="text-xs font-semibold text-slate-500 uppercase tracking-wider ml-1">Télécharger l'Image du Ticket</Label>
             <div 
               className={`relative border-2 border-dashed rounded-xl p-6 transition-all cursor-pointer bg-white/40 group ${
                 image ? 'border-green-500 bg-green-50/50' : 'border-slate-200 hover:border-primary/30 shadow-sm'
@@ -100,7 +100,7 @@ export function FormStep({
                   {image ? <CheckCircle2 className="w-6 h-6 text-green-600" /> : <Upload className="w-5 h-5 text-slate-400" />}
                 </div>
                 <span className={`text-xs font-medium transition-colors ${image ? 'text-green-700' : 'text-slate-500'}`}>
-                  {image ? "Image Selected Successfully" : "Click to upload ticket photo"}
+                  {image ? "Image Sélectionnée avec Succès" : "Cliquez pour télécharger la photo du ticket"}
                 </span>
                 {image && <p className="text-[10px] text-green-600 font-semibold truncate max-w-[200px]">{image.name}</p>}
               </div>
@@ -115,7 +115,7 @@ export function FormStep({
         )}
 
         <Button type="submit" disabled={isSubmitting} className="w-full h-12 text-sm font-bold rounded-xl bg-primary hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 disabled:opacity-70">
-          {isSubmitting ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Processing...</> : "Start verification"}
+          {isSubmitting ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Traitement...</> : "Démarrer la vérification"}
         </Button>
       </form>
     </motion.div>

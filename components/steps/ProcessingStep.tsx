@@ -36,9 +36,9 @@ export function ProcessingStep({ timer }: ProcessingStepProps) {
         </div>
       </div>
       <div className="space-y-2">
-        <h2 className="text-2xl font-bold text-slate-900">Verifying Ticket</h2>
+        <h2 className="text-2xl font-bold text-slate-900">Vérification du Ticket</h2>
         <p className="text-sm text-slate-500 leading-relaxed font-medium">
-          You will receive a confirmation shortly,<br />please wait.
+          Vous recevrez une confirmation sous peu,<br />veuillez patienter.
         </p>
       </div>
       <div className="flex justify-center space-x-1.5">

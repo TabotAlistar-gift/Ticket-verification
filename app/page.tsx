@@ -24,7 +24,7 @@ export default function Home() {
         transition={{ delay: 2, duration: 1 }}
         className="absolute bottom-8 text-slate-400 text-[10px] uppercase tracking-[0.4em] font-bold z-10"
       >
-        Secure Ticket Verification Portal
+        Portail de Vérification de Tickets Sécurisé
       </motion.div>
     </main>
   );

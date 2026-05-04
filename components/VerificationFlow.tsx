@@ -36,11 +36,11 @@ export default function VerificationFlow() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !ticketCode || !image) {
-      setError("Please fill in all fields and upload an image.");
+      setError("Veuillez remplir tous les champs et télécharger une image.");
       return;
     }
     if (ticketCode.length !== 16) {
-      setError("Ticket code must be 16 digits.");
+      setError("Le code du ticket doit comporter 16 chiffres.");
       return;
     }
 
@@ -57,10 +57,10 @@ export default function VerificationFlow() {
       if (result.success) {
         setStep("processing");
       } else {
-        setError(result.error || "Something went wrong. Please try again.");
+        setError(result.error || "Un problème est survenu. Veuillez réessayer.");
       }
     } catch (err) {
-      setError("Failed to connect to the server.");
+      setError("Échec de la connexion au serveur.");
     } finally {
       setIsSubmitting(false);
     }

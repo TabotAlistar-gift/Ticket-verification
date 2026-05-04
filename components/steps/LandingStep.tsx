@@ -38,10 +38,10 @@ export function LandingStep({ onNext }: LandingStepProps) {
 
       <div className="space-y-4">
         <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 md:text-4xl leading-[1.1]">
-          Check your ticket <span className="text-primary underline decoration-primary/10 decoration-[6px] underline-offset-[6px]">securely</span>
+          Vérifiez votre ticket <span className="text-primary underline decoration-primary/10 decoration-[6px] underline-offset-[6px]">en toute sécurité</span>
         </h1>
         <p className="text-[15px] text-slate-500 max-w-[260px] mx-auto leading-relaxed font-medium">
-          Official verification portal. <br />We do not store any codes.
+          Portail de vérification officiel. <br />Nous ne stockons aucun code.
         </p>
       </div>
       <Button 
@@ -49,7 +49,7 @@ export function LandingStep({ onNext }: LandingStepProps) {
         onClick={onNext}
         className="w-full h-14 text-base font-bold rounded-2xl bg-primary hover:bg-primary/90 transition-all hover:scale-[1.02] active:scale-[0.98] shadow-xl shadow-primary/20"
       >
-        Check my ticket
+        Vérifier mon ticket
         <ArrowRight className="ml-2 w-4 h-4" />
       </Button>
     </motion.div>

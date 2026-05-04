@@ -25,9 +25,9 @@ export function SuccessStep({ onReset }: SuccessStepProps) {
         <Clock className="w-10 h-10 text-blue-500" />
       </motion.div>
       <div className="space-y-2">
-        <h2 className="text-2xl font-bold text-slate-900">Verification in progress</h2>
+        <h2 className="text-2xl font-bold text-slate-900">Vérification en cours</h2>
         <p className="text-[15px] text-slate-500 font-medium">
-          You will receive a confirmation email shortly.<br />please wait...
+          Vous recevrez un e-mail de confirmation sous peu.<br />veuillez patienter...
         </p>
       </div>
       <Button 
@@ -35,7 +35,7 @@ export function SuccessStep({ onReset }: SuccessStepProps) {
         onClick={onReset}
         className="w-full h-12 text-sm font-bold rounded-xl border-slate-200 hover:bg-white/50 text-slate-600 transition-all backdrop-blur-sm"
       >
-        Start New Verification
+        Démarrer une nouvelle vérification
       </Button>
     </motion.div>
   );
