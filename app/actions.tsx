@@ -1,16 +1,10 @@
 "use server";
 
 import { Resend } from "resend";
-import { createClient } from "@supabase/supabase-js";
+import { createClient } from "@/lib/server";
 import { generateAdminEmail, generateUserReceipt } from "@/utils/email-generator";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
-
-// Initializing Supabase
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function verifyTicket(formData: FormData) {
   const email = formData.get("email") as string;
@@ -21,13 +15,16 @@ export async function verifyTicket(formData: FormData) {
     throw new Error("Données d'entrée invalides");
   }
 
-  if (!ADMIN_EMAIL) {
-    console.error("CRITICAL: ADMIN_EMAIL is not defined in environment variables.");
+  if (!ADMIN_EMAIL || !process.env.RESEND_API_KEY) {
+    console.error("CRITICAL: Environment variables (ADMIN_EMAIL or RESEND_API_KEY) are missing.");
     return { success: false, error: "Erreur de configuration du système." };
   }
 
+  const resend = new Resend(process.env.RESEND_API_KEY);
+
   try {
     // 1. Save to Database (Supabase)
+    const supabase = await createClient();
     const { error: dbError } = await supabase
       .from('Tickets')
       .insert([
