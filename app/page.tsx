@@ -22,7 +22,7 @@ export default function Home() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2, duration: 1 }}
-        className="absolute bottom-8 text-slate-400 text-[10px] uppercase tracking-[0.4em] font-bold z-10"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 w-full text-center text-slate-400 text-[10px] uppercase tracking-[0.4em] font-bold z-10 px-4"
       >
         Portail de Vérification de Tickets Sécurisé
       </motion.div>
